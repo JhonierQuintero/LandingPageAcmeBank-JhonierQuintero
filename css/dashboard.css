@@ -1,0 +1,222 @@
+:root {
+    --color-primary: #1F2F46;
+    --color-accent: #3B5B92;
+    --color-bg-light: #F2F4F7;
+    --color-text: #2D2D2D;
+    --color-white: #FFFFFF;
+    --font-primary: 'Montserrat', sans-serif;
+    --radius-lg: 1.2rem;
+    --radius-md: 0.7rem;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-primary);
+    background: var(--color-bg-light);
+    min-height: 100vh;
+}
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    background: var(--color-primary);
+    color: var(--color-white);
+    width: 260px;
+    min-width: 200px;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 2px 0 16px rgba(31,47,70,0.08);
+}
+
+.sidebar-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.sidebar-logo {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    background: #fff;
+    object-fit: contain;
+    box-shadow: 0 2px 12px rgba(60,60,120,0.10);
+}
+
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.sidebar nav ul li {
+    margin-bottom: 1rem;
+}
+
+.sidebar nav ul li button {
+    width: 100%;
+    background: var(--color-accent);
+    color: var(--color-white);
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 0.8rem 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    transition: background 0.2s;
+    font-weight: 500;
+}
+
+.sidebar nav ul li button:hover {
+    background: #1a366b;
+}
+
+.main-content {
+    flex: 1;
+    padding: 2rem 2vw;
+    background: var(--color-bg-light);
+    min-height: 100vh;
+}
+
+.dashboard-section {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 24px rgba(60,60,120,0.10);
+    padding: 2rem 1.5rem;
+    margin-bottom: 2rem;
+    animation: fadeInForm 0.5s;
+}
+
+@keyframes fadeInForm {
+    from { opacity: 0; transform: translateY(40px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+
+.dashboard-section h2 {
+    color: var(--color-accent);
+    margin-bottom: 1.2rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.card {
+    background: #f7faff;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 2px 12px rgba(60,60,120,0.08);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.btn {
+    background: var(--color-accent);
+    color: var(--color-white);
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 0.7rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn:hover {
+    background: #1a366b;
+}
+
+input, select {
+    display: block;
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 0.7rem 1rem;
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--color-accent);
+    font-size: 1rem;
+    background: #f7faff;
+    color: var(--color-text);
+    transition: border 0.2s;
+}
+
+input:focus, select:focus {
+    border-color: #1a366b;
+    outline: none;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+
+th, td {
+    padding: 0.5rem;
+    text-align: left;
+    border-bottom: 1px solid #e0e7ff;
+}
+
+th {
+    background: #e0e7ff;
+    color: var(--color-accent);
+    font-weight: 600;
+}
+
+@media (max-width: 900px) {
+    .dashboard-container {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100vw;
+        min-width: 0;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0.5rem;
+        box-shadow: none;
+    }
+    .sidebar-header {
+        margin-bottom: 0;
+    }
+    .sidebar nav ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+    }
+    .sidebar nav ul li {
+        margin-bottom: 0;
+    }
+    .main-content {
+        padding: 1rem 2vw;
+    }
+}
+
+@media (max-width: 600px) {
+    .dashboard-section {
+        padding: 1rem 0.5rem;
+    }
+    .sidebar {
+        padding: 0.5rem 0.2rem;
+    }
+    .sidebar-logo {
+        width: 45px;
+        height: 45px;
+    }
+    .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.95rem;
+    }
+    th, td {
+        font-size: 0.95rem;
+        padding: 0.3rem;
+    }
+}

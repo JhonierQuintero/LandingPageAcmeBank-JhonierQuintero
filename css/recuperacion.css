@@ -1,0 +1,128 @@
+:root {
+  --color-accent: #3B5B92;
+  --color-bg-light: #F2F4F7;
+  --color-text: #2D2D2D;
+  --color-white: #FFFFFF;
+  --font-primary: 'Montserrat', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--color-bg-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font-primary);
+}
+
+.container {
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrapper {
+    width: 28rem;
+    max-width: 98vw;
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 4px 24px rgba(60,60,120,0.10);
+    padding: 2rem 1rem;
+}
+
+h1 {
+    color: var(--color-accent);
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.input-box {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 1.2rem;
+    box-sizing: border-box;
+}
+
+.input-box input,
+.input-box select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border-radius: 2rem;
+    border: 1.5px solid var(--color-accent);
+    font-size: 1rem;
+    color: var(--color-text);
+    background: #f7faff;
+    margin-top: 0.2rem;
+    transition: border 0.2s;
+    box-sizing: border-box;
+}
+
+.input-box input:focus,
+.input-box select:focus {
+    border-color: #1a366b;
+    outline: none;
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.button-group .btn {
+    width: 45%;
+    min-width: 100px;
+    padding: 0.7rem 1.2rem;
+    border-radius: 2rem;
+    border: none;
+    background: var(--color-accent);
+    color: var(--color-white);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.button-group .btn:hover {
+    background: #1a366b;
+}
+
+#mensaje-exito {
+    background: var(--color-bg-light);
+    border-radius: 1rem;
+    box-shadow: 0 4px 24px rgba(60,60,120,0.10);
+    padding: 2rem 1rem;
+    color: var(--color-text);
+    font-size: 1.1rem;
+    text-align: center;
+    border: 2px solid var(--color-accent);
+}
+
+@media (max-width: 900px) {
+    .wrapper {
+        width: 95vw;
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .wrapper {
+        width: 100vw;
+        padding: 0.5rem;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    h1 {
+        font-size: 1.1rem;
+    }
+    .button-group .btn {
+        min-width: 80px;
+        font-size: 0.95rem;
+        padding: 0.5rem 1rem;
+    }
+}

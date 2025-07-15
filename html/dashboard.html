@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - AcmeBank</title>
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="../assets/acmebankLogo.png" alt="Logo" class="sidebar-logo">
+                <h2>AcmeBank</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li><button onclick="showSection('resumen')"><i class="bx bx-home"></i> Resumen</button></li>
+                    <li><button onclick="showSection('transacciones')"><i class="bx bx-list-ul"></i> Transacciones</button></li>
+                    <li><button onclick="showSection('consignacion')"><i class="bx bx-plus-circle"></i> Consignar</button></li>
+                    <li><button onclick="showSection('retiro')"><i class="bx bx-minus-circle"></i> Retirar</button></li>
+                    <li><button onclick="showSection('servicios')"><i class="bx bx-receipt"></i> Servicios</button></li>
+                    <li><button onclick="showSection('extracto')"><i class="bx bx-file"></i> Extracto</button></li>
+                    <li><button onclick="showSection('certificado')"><i class="bx bx-certification"></i> Certificado</button></li>
+                    <li><button onclick="cerrarSesion()"><i class="bx bx-log-out"></i> Salir</button></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <!-- Resumen de cuenta -->
+            <section id="resumen-section" class="dashboard-section">
+                <h2>Resumen de Cuenta</h2>
+                <div id="resumen-card" class="card"></div>
+            </section>
+            <!-- Transacciones -->
+            <section id="transacciones-section" class="dashboard-section" style="display:none;">
+                <h2>Últimas 10 Transacciones</h2>
+                <div id="transacciones-list"></div>
+                <button class="btn" onclick="imprimir('transacciones-list')"><i class="bx bx-printer"></i> Imprimir</button>
+            </section>
+            <!-- Consignación -->
+            <section id="consignacion-section" class="dashboard-section" style="display:none;">
+                <h2>Consignación Electrónica</h2>
+                <form id="form-consignacion" autocomplete="off">
+                    <div id="consignacion-info"></div>
+                    <input type="number" id="consignacion-valor" placeholder="Cantidad a consignar" required min="1">
+                    <button type="submit" class="btn"><i class="bx bx-plus-circle"></i> Consignar</button>
+                </form>
+                <div id="consignacion-resumen"></div>
+            </section>
+            <!-- Retiro -->
+            <section id="retiro-section" class="dashboard-section" style="display:none;">
+                <h2>Retiro de Dinero</h2>
+                <form id="form-retiro" autocomplete="off">
+                    <div id="retiro-info"></div>
+                    <input type="number" id="retiro-valor" placeholder="Cantidad a retirar" required min="1">
+                    <button type="submit" class="btn"><i class="bx bx-minus-circle"></i> Retirar</button>
+                </form>
+                <div id="retiro-resumen"></div>
+            </section>
+            <!-- Pago de servicios -->
+            <section id="servicios-section" class="dashboard-section" style="display:none;">
+                <h2>Pago de Servicios Públicos</h2>
+                <form id="form-servicios" autocomplete="off">
+                    <div id="servicios-info"></div>
+                    <select id="servicio-tipo" required>
+                        <option value="" disabled selected>Seleccione servicio</option>
+                        <option value="Energía">Energía</option>
+                        <option value="Agua">Agua</option>
+                        <option value="Gas natural">Gas natural</option>
+                        <option value="Internet">Internet</option>
+                    </select>
+                    <input type="text" id="servicio-referencia" placeholder="Referencia" required>
+                    <input type="number" id="servicio-valor" placeholder="Valor a pagar" required min="1">
+                    <button type="submit" class="btn"><i class="bx bx-receipt"></i> Pagar</button>
+                </form>
+                <div id="servicios-resumen"></div>
+            </section>
+            <!-- Extracto bancario -->
+            <section id="extracto-section" class="dashboard-section" style="display:none;">
+                <h2>Extracto Bancario</h2>
+                <form id="form-extracto" autocomplete="off">
+                    <div id="extracto-info"></div>
+                    <select id="extracto-anio" required></select>
+                    <select id="extracto-mes" required>
+                        <option value="" disabled selected>Mes</option>
+                        <option value="1">Enero</option>
+                        <option value="2">Febrero</option>
+                        <option value="3">Marzo</option>
+                        <option value="4">Abril</option>
+                        <option value="5">Mayo</option>
+                        <option value="6">Junio</option>
+                        <option value="7">Julio</option>
+                        <option value="8">Agosto</option>
+                        <option value="9">Septiembre</option>
+                        <option value="10">Octubre</option>
+                        <option value="11">Noviembre</option>
+                        <option value="12">Diciembre</option>
+                    </select>
+                    <button type="submit" class="btn"><i class="bx bx-search"></i> Consultar</button>
+                </form>
+                <div id="extracto-list"></div>
+            </section>
+            <!-- Certificado bancario -->
+            <section id="certificado-section" class="dashboard-section" style="display:none;">
+                <h2>Certificado Bancario</h2>
+                <div id="certificado-card" class="card"></div>
+                <button class="btn" onclick="imprimir('certificado-card')"><i class="bx bx-printer"></i> Imprimir Certificado</button>
+            </section>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar Contraseña - AcmeBank</title>
+    <link rel="stylesheet" href="../css/recuperacion.css">
+</head>
+<body>
+    <div class="container">
+        <div class="wrapper">
+            <form id="form-recuperacion" autocomplete="off">
+                <h1>Recuperar Contraseña</h1>
+                <div class="input-box">
+                    <select id="tipo-documento" required>
+                        <option value="" disabled selected>Tipo de identificación</option>
+                        <option value="CC">Cédula de Ciudadanía</option>
+                        <option value="TI">Tarjeta de Identidad</option>
+                    </select>
+                </div>
+                <div class="input-box">
+                    <input type="number" id="numero-documento" placeholder="Número de identificación" required>
+                </div>
+                <div class="input-box">
+                    <input type="email" id="correo" placeholder="Correo electrónico" required>
+                </div>
+                <div class="button-group">
+                    <button type="button" class="btn" id="btn-cancelar">Cancelar</button>
+                    <button type="submit" class="btn" id="btn-verificar">Verificar</button>
+                </div>
+            </form>
+            <form id="form-nueva-password" style="display:none;" autocomplete="off">
+                <h1>Asignar Nueva Contraseña</h1>
+                <div class="input-box">
+                    <input type="password" id="nueva-password" placeholder="Nueva contraseña" required minlength="6">
+                </div>
+                <div class="input-box">
+                    <input type="password" id="confirmar-password" placeholder="Confirmar contraseña" required minlength="6">
+                </div>
+                <div class="button-group">
+                    <button type="button" class="btn" id="btn-cancelar2">Cancelar</button>
+                    <button type="submit" class="btn" id="btn-guardar">Guardar</button>
+                </div>
+            </form>
+            <div id="mensaje-exito" style="display:none; margin-top:2rem; text-align:center;"></div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/recuperacion.js"></script>
+</body>
+</html>
