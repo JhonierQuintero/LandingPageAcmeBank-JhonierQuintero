@@ -333,12 +333,15 @@ tr:last-child td {
     border-bottom: none;
 }
 
+.nombreUsuario{
+    margin-bottom: 2rem;
+}
+
 @keyframes fadeInForm {
     from { opacity: 0; transform: translateY(40px);}
     to { opacity: 1; transform: translateY(0);}
 }
 
-/* RESPONSIVE */
 @media (max-width: 1200px) {
     .main-content { padding: 2rem 2vw; }
     .dashboard-section { padding: 2rem 1rem; }

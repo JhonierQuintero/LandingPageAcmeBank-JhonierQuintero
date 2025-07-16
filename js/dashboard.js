@@ -118,7 +118,7 @@ function cargarConsignacion() {
     const usuario = getUsuarioActual();
     document.getElementById("consignacion-info").innerHTML = `
         <p><strong>Número de cuenta:</strong> ${usuario.numeroCuenta}</p>
-        <p><strong>Nombre:</strong> ${usuario.nombres} ${usuario.apellidos}</p>
+        <p class="nombreUsuario" ><strong>Nombre:</strong> ${usuario.nombres} ${usuario.apellidos}</p>
     `;
     document.getElementById("consignacion-resumen").innerHTML = "";
 }
@@ -162,7 +162,7 @@ function cargarRetiro() {
     const usuario = getUsuarioActual();
     document.getElementById("retiro-info").innerHTML = `
         <p><strong>Número de cuenta:</strong> ${usuario.numeroCuenta}</p>
-        <p><strong>Nombre:</strong> ${usuario.nombres} ${usuario.apellidos}</p>
+        <p class="nombreUsuario" ><strong>Nombre:</strong> ${usuario.nombres} ${usuario.apellidos}</p>
     `;
     document.getElementById("retiro-resumen").innerHTML = "";
 }
@@ -210,7 +210,7 @@ function cargarServicios() {
     const usuario = getUsuarioActual();
     document.getElementById("servicios-info").innerHTML = `
         <p><strong>Número de cuenta:</strong> ${usuario.numeroCuenta}</p>
-        <p><strong>Nombre:</strong> ${usuario.nombres} ${usuario.apellidos}</p>
+        <p class="nombreUsuario" ><strong>Nombre:</strong> ${usuario.nombres} ${usuario.apellidos}</p>
     `;
     document.getElementById("servicios-resumen").innerHTML = "";
 }
@@ -260,7 +260,7 @@ function cargarExtracto() {
     const usuario = getUsuarioActual();
     document.getElementById("extracto-info").innerHTML = `
         <p><strong>Número de cuenta:</strong> ${usuario.numeroCuenta}</p>
-        <p><strong>Nombre:</strong> ${usuario.nombres} ${usuario.apellidos}</p>
+        <p class="nombreUsuario" ><strong>Nombre:</strong> ${usuario.nombres} ${usuario.apellidos}</p>
     `;
     // Rellenar años disponibles
     const selectAnio = document.getElementById("extracto-anio");
