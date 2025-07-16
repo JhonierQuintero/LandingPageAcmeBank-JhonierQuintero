@@ -1,24 +1,31 @@
 function getUsuarioActual() {
     const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-    const idx = JSON.parse(localStorage.getItem("usuarioActivo"));
-
-    return usuarios.find(u => u.numeroDeDocumento === idx) || null;
+    const usuarioActivo = localStorage.getItem("usuarioActivo");
+    return usuarios.find(u => String(u.numeroDeDocumento) === String(usuarioActivo)) || null;
 }
 
 function guardarUsuarioActual(usuario) {
     const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-    const idx = usuarios.findIndex(u => u.numeroCuenta === usuario.numeroCuenta);
+    const idx = usuarios.findIndex(u => String(u.numeroDeDocumento) === String(usuario.numeroDeDocumento));
     if (idx !== -1) {
         usuarios[idx] = usuario;
         localStorage.setItem("usuarios", JSON.stringify(usuarios));
     }
 }
 
-function guardarTransaccion(transaccion) {
+// Guarda y actualiza la transacción y el saldo
+function guardarTransaccion(transaccion, tipoOperacion) {
     const usuario = getUsuarioActual();
     usuario.transacciones = usuario.transacciones || [];
     usuario.transacciones.unshift(transaccion);
     if (usuario.transacciones.length > 50) usuario.transacciones = usuario.transacciones.slice(0, 50);
+
+    // Actualiza saldo según tipo de operación
+    if (tipoOperacion === "consignacion") {
+        usuario.saldo = (usuario.saldo || 0) + transaccion.valor;
+    } else if (tipoOperacion === "retiro" || tipoOperacion === "servicio") {
+        usuario.saldo = (usuario.saldo || 0) - transaccion.valor;
+    }
     guardarUsuarioActual(usuario);
 }
 
@@ -45,8 +52,7 @@ function cargarResumen() {
     if (!usuario) return;
     document.getElementById("resumen-card").innerHTML = `
         <div>
-            <p class="saldo" ><span style="font-weight:600;">$${usuario.saldo || 0}</span></p>    
-            <p><strong>Saldo actual:</strong> <span style="color:#16a34a;font-weight:600;">$${usuario.saldo || 0}</span></p>
+            <p class="saldo"><span style="font-weight:600;">$${usuario.saldo || 0}</span></p>
             <h3 style="color:var(--color-accent);margin-bottom:1rem;"><i class="bx bx-user"></i> ${usuario.nombres} ${usuario.apellidos}</h3>
             <p><strong>Número de cuenta:</strong> ${usuario.numeroCuenta}</p>
             <p><strong>Fecha de creación:</strong> ${usuario.fechaCreacion}</p>
@@ -59,7 +65,16 @@ function cargarTransacciones() {
     const usuario = getUsuarioActual();
     const lista = document.getElementById("transacciones-list");
     lista.innerHTML = "";
-    const transacciones = (usuario.transacciones || []).slice(0, 10);
+    // Ordena por fechaISO si existe, si no por fecha local
+    let transacciones = (usuario.transacciones || []).slice();
+    transacciones.sort((a, b) => {
+        if (a.fechaISO && b.fechaISO) {
+            return new Date(b.fechaISO) - new Date(a.fechaISO);
+        }
+        // fallback: no debería pasar
+        return 0;
+    });
+    transacciones = transacciones.slice(0, 10);
     if (transacciones.length === 0) {
         lista.innerHTML = "<p>No hay transacciones recientes.</p>";
         return;
@@ -116,16 +131,16 @@ document.getElementById("form-consignacion").onsubmit = function(e) {
         Swal.fire("Error", "Ingrese una cantidad válida.", "error");
         return;
     }
-    usuario.saldo = (usuario.saldo || 0) + valor;
+    const fechaActual = new Date();
     const transaccion = {
-        fecha: new Date().toLocaleDateString(),
+        fecha: fechaActual.toLocaleDateString(),
+        fechaISO: fechaActual.toISOString(),
         referencia: "CN" + Math.floor(100000 + Math.random() * 900000),
         tipo: "Consignación",
         concepto: "Consignación por canal electrónico",
         valor: valor
     };
-    guardarTransaccion(transaccion);
-    guardarUsuarioActual(usuario);
+    guardarTransaccion(transaccion, "consignacion");
     document.getElementById("consignacion-resumen").innerHTML = `
         <div class="card">
             <h3>Resumen de Consignación</h3>
@@ -164,16 +179,16 @@ document.getElementById("form-retiro").onsubmit = function(e) {
         Swal.fire("Error", "Saldo insuficiente.", "error");
         return;
     }
-    usuario.saldo -= valor;
+    const fechaActual = new Date();
     const transaccion = {
-        fecha: new Date().toLocaleDateString(),
+        fecha: fechaActual.toLocaleDateString(),
+        fechaISO: fechaActual.toISOString(),
         referencia: "RT" + Math.floor(100000 + Math.random() * 900000),
         tipo: "Retiro",
         concepto: "Retiro de dinero",
         valor: valor
     };
-    guardarTransaccion(transaccion);
-    guardarUsuarioActual(usuario);
+    guardarTransaccion(transaccion, "retiro");
     document.getElementById("retiro-resumen").innerHTML = `
         <div class="card">
             <h3>Resumen de Retiro</h3>
@@ -214,16 +229,16 @@ document.getElementById("form-servicios").onsubmit = function(e) {
         Swal.fire("Error", "Saldo insuficiente.", "error");
         return;
     }
-    usuario.saldo -= valor;
+    const fechaActual = new Date();
     const transaccion = {
-        fecha: new Date().toLocaleDateString(),
+        fecha: fechaActual.toLocaleDateString(),
+        fechaISO: fechaActual.toISOString(),
         referencia: "SV" + Math.floor(100000 + Math.random() * 900000),
         tipo: "Retiro",
         concepto: `Pago de servicio público ${tipo} (${referencia})`,
         valor: valor
     };
-    guardarTransaccion(transaccion);
-    guardarUsuarioActual(usuario);
+    guardarTransaccion(transaccion, "servicio");
     document.getElementById("servicios-resumen").innerHTML = `
         <div class="card">
             <h3>Resumen de Pago</h3>
@@ -251,10 +266,12 @@ function cargarExtracto() {
     const selectAnio = document.getElementById("extracto-anio");
     selectAnio.innerHTML = `<option value="" disabled selected>Año</option>`;
     const transacciones = usuario.transacciones || [];
-    const anios = [...new Set(transacciones.map(t => {
-        const partes = t.fecha.split('/');
-        return partes.length === 3 ? partes[2] : new Date(t.fecha).getFullYear();
-    }))];
+    // Extrae el año de la fechaISO
+    const anios = [...new Set(
+        transacciones
+            .map(t => t.fechaISO ? new Date(t.fechaISO).getFullYear() : null)
+            .filter(anio => anio)
+    )];
     anios.forEach(anio => {
         selectAnio.innerHTML += `<option value="${anio}">${anio}</option>`;
     });
@@ -264,12 +281,13 @@ function cargarExtracto() {
 document.getElementById("form-extracto").onsubmit = function(e) {
     e.preventDefault();
     const usuario = getUsuarioActual();
-    const anio = document.getElementById("extracto-anio").value;
-    const mes = document.getElementById("extracto-mes").value;
+    const anio = Number(document.getElementById("extracto-anio").value);
+    const mes = Number(document.getElementById("extracto-mes").value);
     const lista = document.getElementById("extracto-list");
     const transacciones = (usuario.transacciones || []).filter(t => {
-        const partes = t.fecha.split('/');
-        return partes.length === 3 && partes[1] == mes && partes[2] == anio;
+        if (!t.fechaISO) return false;
+        const fecha = new Date(t.fechaISO);
+        return fecha.getFullYear() === anio && (fecha.getMonth() + 1) === mes;
     });
     if (transacciones.length === 0) {
         lista.innerHTML = "<p>No hay movimientos para ese periodo.</p>";
@@ -306,9 +324,14 @@ function cargarCertificado() {
     document.getElementById("certificado-card").innerHTML = `
         <div style="padding:2rem;text-align:center;border:2px solid var(--color-accent);border-radius:1rem;background:#f7faff;">
             <h3 style="color:var(--color-accent);margin-bottom:1rem;"><i class="bx bx-certification"></i> Certificado Bancario</h3>
-            <p>El banco AcmeBank certifica que el usuario <strong>${usuario.nombres} ${usuario.apellidos}</strong> identificado con <strong>${usuario.tipoDeDocumento} ${usuario.numeroDeDocumento}</strong> posee una cuenta activa número <strong>${usuario.numeroCuenta}</strong> desde el <strong>${usuario.fechaCreacion}</strong>.</p>
-            <p>Saldo actual: <strong>$${usuario.saldo || 0}</strong></p>
-            <p>Este certificado se expide a solicitud del interesado.</p>
+            <p>El presente certificado hace constar que 
+            <strong>${usuario.nombres} ${usuario.apellidos}</strong>, 
+            identificado con <strong>${usuario.tipoDeDocumento} No. ${usuario.numeroDeDocumento}</strong>, es titular de la cuenta bancaria número <strong>${usuario.numeroCuenta}</strong> 
+            en AcmeBank, la cual se encuentra activa desde el <strong>${usuario.fechaCreacion}</strong>. El saldo actual de la cuenta es de <strong>$${usuario.saldo || 0}</strong>.
+            </p>
+            <p>
+                Se expide el presente certificado a solicitud del interesado, para los fines que estime convenientes.
+            </p>
         </div>
     `;
 }

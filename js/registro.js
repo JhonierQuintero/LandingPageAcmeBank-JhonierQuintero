@@ -48,7 +48,9 @@ document.getElementById("form-registro").onsubmit = function(e) {
         ciudad,
         password,
         numeroCuenta,
-        fechaCreacion
+        fechaCreacion,
+        saldo: 0,
+        transacciones: []
     };
     const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
     usuarios.push(usuario);

@@ -11,19 +11,18 @@
     <div class="dashboard-container">
         <aside class="sidebar">
             <div class="sidebar-header">
-                <img src="../assets/acmebankLogo.png" alt="Logo" class="sidebar-logo">
-                <h2>AcmeBank</h2>
+                <img src="../assets/acmebankLogo.png" alt="Logo AcmeBank" class="sidebar-logo">
             </div>
             <nav>
                 <ul>
-                    <li><button onclick="showSection('resumen')"><i class="bx bx-home"></i> Resumen</button></li>
-                    <li><button onclick="showSection('transacciones')"><i class="bx bx-list-ul"></i> Transacciones</button></li>
-                    <li><button onclick="showSection('consignacion')"><i class="bx bx-plus-circle"></i> Consignar</button></li>
-                    <li><button onclick="showSection('retiro')"><i class="bx bx-minus-circle"></i> Retirar</button></li>
-                    <li><button onclick="showSection('servicios')"><i class="bx bx-receipt"></i> Servicios</button></li>
-                    <li><button onclick="showSection('extracto')"><i class="bx bx-file"></i> Extracto</button></li>
-                    <li><button onclick="showSection('certificado')"><i class="bx bx-certification"></i> Certificado</button></li>
-                    <li><button onclick="cerrarSesion()"><i class="bx bx-log-out"></i> Salir</button></li>
+                    <li><button onclick="showSection('resumen')" id="btn-resumen"><i class="bx bx-home"></i><span>Inicio</span></button></li>
+                    <li><button onclick="showSection('transacciones')" id="btn-transacciones"><i class="bx bx-list-ul"></i><span>Movimientos</span></button></li>
+                    <li><button onclick="showSection('consignacion')" id="btn-consignacion"><i class="bx bx-plus-circle"></i><span>Consignar</span></button></li>
+                    <li><button onclick="showSection('retiro')" id="btn-retiro"><i class="bx bx-minus-circle"></i><span>Retirar</span></button></li>
+                    <li><button onclick="showSection('servicios')" id="btn-servicios"><i class="bx bx-receipt"></i><span>Servicios</span></button></li>
+                    <li><button onclick="showSection('extracto')" id="btn-extracto"><i class="bx bx-file"></i><span>Extracto</span></button></li>
+                    <li><button onclick="showSection('certificado')" id="btn-certificado"><i class="bx bx-certification"></i><span>Certificado</span></button></li>
+                    <li><button onclick="cerrarSesion()" id="btn-salir"><i class="bx bx-log-out"></i><span>Salir</span></button></li>
                 </ul>
             </nav>
         </aside>

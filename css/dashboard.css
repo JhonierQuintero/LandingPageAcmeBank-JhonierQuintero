@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
 :root {
     --color-primary: #1F2F46;
     --color-accent: #3B5B92;
@@ -7,10 +9,19 @@
     --font-primary: 'Montserrat', sans-serif;
     --radius-lg: 1.2rem;
     --radius-md: 0.7rem;
+    --sidebar-collapsed: 70px;
+    --sidebar-expanded: 220px;
+    --transition: 0.3s cubic-bezier(.4,0,.2,1);
+}
+
+/* Reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    margin: 0;
     font-family: var(--font-primary);
     background: var(--color-bg-light);
     min-height: 100vh;
@@ -21,41 +32,82 @@ body {
     min-height: 100vh;
 }
 
+/* SIDEBAR EXPANDIBLE */
 .sidebar {
     background: var(--color-primary);
     color: var(--color-white);
-    width: 260px;
-    min-width: 200px;
-    padding: 2rem 1rem;
+    width: var(--sidebar-collapsed);
+    min-width: var(--sidebar-collapsed);
+    max-width: var(--sidebar-expanded);
+    height: 100vh;
+    padding: 2rem 0.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     box-shadow: 2px 0 16px rgba(31,47,70,0.08);
+    transition: width var(--transition), min-width var(--transition);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    overflow-x: visible;
+}
+
+.sidebar:hover,
+.sidebar:focus-within {
+    width: var(--sidebar-expanded);
+    min-width: var(--sidebar-expanded);
 }
 
 .sidebar-header {
     text-align: center;
     margin-bottom: 2rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .sidebar-logo {
-    width: 65px;
-    height: 65px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
-    margin-bottom: 1rem;
     background: #fff;
     object-fit: contain;
     box-shadow: 0 2px 12px rgba(60,60,120,0.10);
+    margin: 0 auto;
 }
 
+/* Sidebar menu: scroll solo cuando expandido */
 .sidebar nav ul {
     list-style: none;
     padding: 0;
     width: 100%;
+    max-height: calc(100vh - 120px);
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-accent) var(--color-primary);
+    padding-right: 4px;
+}
+.sidebar:hover nav ul,
+.sidebar:focus-within nav ul {
+    overflow-y: auto;
+}
+.sidebar nav ul::-webkit-scrollbar {
+    width: 6px;
+    background: var(--color-primary);
+}
+.sidebar nav ul::-webkit-scrollbar-thumb {
+    background: var(--color-accent);
+    border-radius: 4px;
 }
 
 .sidebar nav ul li {
-    margin-bottom: 1rem;
+    margin-bottom: 1.2rem;
+    width: 100%;
+}
+
+.sidebar nav ul li:last-child {
+    margin-bottom: 2.5rem;
 }
 
 .sidebar nav ul li button {
@@ -65,113 +117,203 @@ body {
     border: none;
     border-radius: var(--radius-md);
     padding: 0.8rem 0.5rem;
-    font-size: 1rem;
+    font-size: 1.2rem;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 0.7rem;
-    transition: background 0.2s;
+    transition: background 0.2s, padding 0.3s;
     font-weight: 500;
+    justify-content: flex-start;
+    overflow: hidden;
+    position: relative;
 }
 
-.sidebar nav ul li button:hover {
+.sidebar nav ul li button i {
+    min-width: 32px;
+    text-align: center;
+    font-size: 1.6rem;
+}
+
+.sidebar nav ul li button span {
+    opacity: 0;
+    max-width: 0;
+    margin-left: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: opacity 0.3s, max-width 0.3s, margin-left 0.3s;
+    white-space: nowrap;
+    color: #fff;
+}
+
+.sidebar:hover nav ul li button span,
+.sidebar:focus-within nav ul li button span {
+    opacity: 1;
+    max-width: 160px;
+    margin-left: 0.5rem;
+}
+
+.sidebar nav ul li button:hover,
+.sidebar nav ul li button.active {
     background: #1a366b;
 }
 
 .main-content {
     flex: 1;
-    padding: 2rem 2vw;
+    padding: 2.5rem 2vw;
     background: var(--color-bg-light);
     min-height: 100vh;
+    margin-left: var(--sidebar-collapsed);
+    transition: margin-left var(--transition);
 }
 
+.sidebar:hover ~ .main-content,
+.sidebar:focus-within ~ .main-content {
+    margin-left: var(--sidebar-expanded);
+}
+
+/* SECCIONES Y TARJETAS */
 .dashboard-section {
     background: #fff;
     border-radius: var(--radius-lg);
-    box-shadow: 0 4px 24px rgba(60,60,120,0.10);
-    padding: 2rem 1.5rem;
+    box-shadow: 0 8px 32px rgba(60,60,120,0.13);
+    padding: 2.5rem 2rem;
     margin-bottom: 2rem;
     animation: fadeInForm 0.5s;
+    transition: box-shadow 0.2s;
 }
 
-.dashboard-section input{
-    width: 100%;
-    padding: 0.8rem;
-    border-radius: var(--radius-md);
-    border: 1.5px solid var(--color-accent);
-    font-size: 1rem;
-    background: #f7faff;
-    color: var(--color-text);
-    transition: border-color 0.2s;
-    box-sizing: border-box;
-}
-
-@keyframes fadeInForm {
-    from { opacity: 0; transform: translateY(40px);}
-    to { opacity: 1; transform: translateY(0);}
+.dashboard-section:hover {
+    box-shadow: 0 12px 40px rgba(60,60,120,0.18);
 }
 
 .dashboard-section h2 {
     color: var(--color-accent);
-    margin-bottom: 1.2rem;
-    font-size: 1.3rem;
+    margin-bottom: 2.2rem;
+    font-size: 1.7rem;
     font-weight: 700;
+    letter-spacing: 1px;
+    text-align: left;
+}
+
+/* Más separación debajo del nombre de usuario */
+.dashboard-section h3,
+.dashboard-section h2,
+.usuario-info,
+.resumen-usuario,
+#resumen-card > div > h3 {
+    margin-bottom: 2.2rem !important;
+}
+
+/* Si hay un formulario justo después del nombre, más separación */
+.dashboard-section > form,
+.dashboard-section > .formulario,
+.dashboard-section form {
+    margin-top: 1.5rem !important;
 }
 
 .card {
-    background: #f7faff;
+    background: linear-gradient(135deg, #e0e7ff 0%, #f7faff 100%);
     border-radius: var(--radius-lg);
-    box-shadow: 0 2px 12px rgba(60,60,120,0.08);
-    padding: 1.5rem;
-    margin-bottom: 1rem;
+    box-shadow: 0 2px 12px rgba(60,60,120,0.10);
+    padding: 2rem 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1.5px solid #e0e7ff;
+    animation: fadeInForm 0.7s;
 }
 
+.saldo {
+    color: var(--color-accent);
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    background: radial-gradient(circle, rgba(0, 94, 255, 0.13), rgba(204, 0, 255, 0.09));
+    padding: 20px;
+    border-radius: var(--radius-lg);
+    width: 320px;
+    font-size: 2.2rem;
+    margin: 0 auto 1.5rem auto;
+    box-shadow: 0 2px 12px rgba(60,60,120,0.10);
+    animation: fadeInForm 0.7s;
+}
+
+.saldo span {
+    font-size: 3.2rem;
+    color: var(--color-text);
+}
+
+/* BOTONES */
 .btn {
-    background: var(--color-accent);
+    background: linear-gradient(90deg, #3B5B92 60%, #1F2F46 100%);
     color: var(--color-white);
     border: none;
     border-radius: var(--radius-md);
-    padding: 0.7rem 2rem;
-    font-size: 1rem;
+    padding: 0.8rem 2.2rem;
+    font-size: 1.08rem;
     font-weight: 600;
     cursor: pointer;
     margin-top: 1rem;
-    transition: background 0.2s;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
+    box-shadow: 0 2px 8px rgba(60,60,120,0.08);
 }
 
-.btn:hover {
-    background: #1a366b;
+.btn:hover, .btn:focus {
+    background: linear-gradient(90deg, #1a366b 60%, #3B5B92 100%);
+    box-shadow: 0 4px 16px rgba(60,60,120,0.13);
+    transform: scale(1.04);
+}
+
+/* FORMULARIOS Y INPUTS */
+form label {
+    display: block;
+    margin-bottom: 0.7rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    font-size: 1rem;
+    letter-spacing: 0.2px;
 }
 
 input, select {
     display: block;
     width: 100%;
-    margin-bottom: 1rem;
-    padding: 0.7rem 1rem;
+    margin-bottom: 1.7rem;
+    padding: 0.9rem 1.2rem;
     border-radius: var(--radius-md);
     border: 1.5px solid var(--color-accent);
-    font-size: 1rem;
+    font-size: 1.08rem;
     background: #f7faff;
     color: var(--color-text);
-    transition: border 0.2s;
+    transition: border 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 4px rgba(60,60,120,0.05);
 }
 
 input:focus, select:focus {
     border-color: #1a366b;
     outline: none;
+    background: #e0e7ff;
+    box-shadow: 0 2px 12px rgba(60,60,120,0.13);
 }
 
+/* TABLAS */
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    background: #f7faff;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(60,60,120,0.08);
+    animation: fadeInForm 0.7s;
 }
 
 th, td {
-    padding: 0.5rem;
+    padding: 0.7rem;
     text-align: left;
     border-bottom: 1px solid #e0e7ff;
 }
@@ -179,55 +321,77 @@ th, td {
 th {
     background: #e0e7ff;
     color: var(--color-accent);
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 1.05rem;
 }
 
-.saldo{
-    color: var(--color-accent);
-    font-weight: 600;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    background: radial-gradient(circle , rgba(0, 94, 255, 0.637) ,rgba(204, 0, 255, 0.411));
-    padding: 20px;
-    border-radius: var(--radius-lg);
-    width: 300px;
-    font-size: 3rem;
+tr:nth-child(even) {
+    background: #f2f4f7;
 }
 
-.saldo span{
-    font-size: 5rem;
-    color: var(--color-text);
+tr:last-child td {
+    border-bottom: none;
+}
+
+@keyframes fadeInForm {
+    from { opacity: 0; transform: translateY(40px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+
+/* RESPONSIVE */
+@media (max-width: 1200px) {
+    .main-content { padding: 2rem 2vw; }
+    .dashboard-section { padding: 2rem 1rem; }
+    .sidebar-logo { width: 40px; height: 40px; }
 }
 
 @media (max-width: 900px) {
-    .dashboard-container {
-        flex-direction: column;
+    .main-content {
+        margin-left: 0;
+        padding: 1rem 2vw;
     }
     .sidebar {
+        position: static;
         width: 100vw;
         min-width: 0;
+        height: auto;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
         padding: 1rem 0.5rem;
         box-shadow: none;
+        transition: none;
     }
     .sidebar-header {
         margin-bottom: 0;
+        margin-right: 1.5rem;
+    }
+    .sidebar-logo {
+        width: 36px;
+        height: 36px;
     }
     .sidebar nav ul {
         display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        justify-content: center;
+        flex-direction: row;
+        gap: 1.2rem !important;
+        justify-content: flex-start;
+        align-items: center;
+        width: auto;
+        max-height: none;
+        overflow-y: visible;
+        padding-right: 0;
     }
     .sidebar nav ul li {
-        margin-bottom: 0;
+        margin-bottom: 0 !important;
     }
-    .main-content {
-        padding: 1rem 2vw;
+    .sidebar nav ul li:last-child {
+        margin-left: 1.5rem;
+        margin-bottom: 0 !important;
+    }
+    .sidebar nav ul li button {
+        font-size: 1.1rem;
+        padding: 0.5rem 0.2rem;
+        min-width: 60px;
     }
 }
 
@@ -236,18 +400,52 @@ th {
         padding: 1rem 0.5rem;
     }
     .sidebar {
+        flex-direction: row;
+        align-items: center;
         padding: 0.5rem 0.2rem;
+        width: 100vw;
+        gap: 0.5rem;
+        height: 60px;
+        position: static;
+    }
+    .sidebar-header {
+        margin-bottom: 0.5rem;
+        margin-right: 0;
     }
     .sidebar-logo {
-        width: 45px;
-        height: 45px;
+        width: 28px;
+        height: 28px;
     }
-    .btn {
-        padding: 0.5rem 1rem;
-        font-size: 0.95rem;
+    .sidebar nav ul {
+        flex-direction: row;
+        gap: 0.7rem !important;
+        max-height: none;
+        overflow-y: visible;
+        padding-right: 0;
     }
+    .sidebar nav ul li:last-child {
+        margin-left: 1rem;
+    }
+    .sidebar nav ul li button {
+        font-size: 0.92rem;
+        padding: 0.3rem 0.1rem;
+        min-width: 40px;
+    }
+    .main-content {
+        padding: 0.5rem 1vw;
+    }
+    .saldo { font-size: 1.1rem; }
+    .saldo span { font-size: 1.5rem; }
     th, td {
         font-size: 0.95rem;
         padding: 0.3rem;
     }
+}
+
+@media (max-width: 400px) {
+    .sidebar-header h2 { font-size: 0.9rem; }
+    .sidebar-logo { width: 20px; height: 20px; }
+    .dashboard-section { padding: 0.3rem 0.1rem; }
+    .btn { font-size: 0.9rem; padding: 0.4rem 0.7rem; }
+    th, td { font-size: 0.85rem; }
 }

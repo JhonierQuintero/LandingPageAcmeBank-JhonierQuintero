@@ -291,12 +291,23 @@ body{
         width: 50%;
     }
     .wrapper {
-        padding-top: 400px;
         width: 30rem;
     }
 
     .wrapper {
         animation: fadeInForm 0.8s;
+    }
+
+    #form-registro{
+        padding: 1.5rem;
+        font-size: 1.1rem;
+        margin-top: 300px;
+    }
+
+    #resumen {
+        padding: 1.5rem;
+        font-size: 1rem;
+        margin-top: 0;
     }
 }
 @keyframes fadeInForm {

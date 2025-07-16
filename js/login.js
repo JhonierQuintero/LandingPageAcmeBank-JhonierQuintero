@@ -11,7 +11,7 @@ btnLogin.addEventListener("click", function(event) {
         data.forEach(element => {
             if (element.numeroDeDocumento === numeroDeDocumento && element.tipoDeDocumento === tipoDeDocumento && element.password === password) {
                 Swal.fire("Inicio de sesión", "¡Bienvenido!", "success").then(() => {
-                    localStorage.setItem("usuarioActivo", JSON.stringify(element.numeroDeDocumento));
+                    localStorage.setItem("usuarioActivo",element.numeroDeDocumento);
                     window.location.href = "../html/dashboard.html";
                 });
             }

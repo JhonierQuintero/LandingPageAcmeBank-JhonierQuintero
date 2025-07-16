@@ -88,7 +88,9 @@ Páginas funcionales para "Resumen de Transacciones", "Consignación", "Retiros"
 
 
 
-Evidentemente debe utilizar persistencias de datos en el navegador. Las estructuras de datos almacenadas debe ser tipo json y usted debe diseñarlas.
+Evidentemente debe utilizar persistencias de datos en el navegador. 
+Las estructuras de datos almacenadas debe ser tipo json y usted debe 
+diseñarlas.
 
 Resultado esperado
 
