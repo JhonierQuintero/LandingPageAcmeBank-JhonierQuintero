@@ -1,7 +1,8 @@
 function getUsuarioActual() {
     const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-    const idx = localStorage.getItem("usuarioIndex");
-    return usuarios[idx] || null;
+    const idx = JSON.parse(localStorage.getItem("usuarioActivo"));
+
+    return usuarios.find(u => u.numeroDeDocumento === idx) || null;
 }
 
 function guardarUsuarioActual(usuario) {
@@ -34,7 +35,7 @@ function showSection(section) {
 }
 
 function cerrarSesion() {
-    localStorage.removeItem("usuarioIndex");
+    localStorage.removeItem("usuarioActivo");
     window.location.href = "./login.html";
 }
 
@@ -44,9 +45,10 @@ function cargarResumen() {
     if (!usuario) return;
     document.getElementById("resumen-card").innerHTML = `
         <div>
+            <p class="saldo" ><span style="font-weight:600;">$${usuario.saldo || 0}</span></p>    
+            <p><strong>Saldo actual:</strong> <span style="color:#16a34a;font-weight:600;">$${usuario.saldo || 0}</span></p>
             <h3 style="color:var(--color-accent);margin-bottom:1rem;"><i class="bx bx-user"></i> ${usuario.nombres} ${usuario.apellidos}</h3>
             <p><strong>Número de cuenta:</strong> ${usuario.numeroCuenta}</p>
-            <p><strong>Saldo actual:</strong> <span style="color:#16a34a;font-weight:600;">$${usuario.saldo || 0}</span></p>
             <p><strong>Fecha de creación:</strong> ${usuario.fechaCreacion}</p>
         </div>
     `;

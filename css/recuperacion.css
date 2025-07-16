@@ -88,6 +88,21 @@ h1 {
     transition: background 0.2s;
 }
 
+.btn{
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-white);
+    background: var(--color-accent);
+    border: none;
+    border-radius: 2rem;
+}
+
 .button-group .btn:hover {
     background: #1a366b;
 }
