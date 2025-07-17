@@ -1,0 +1,25 @@
+
+---
+
+### ✅ `.gitignore`
+
+```gitignore
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Node (por si lo usas en algún momento para testing)
+node_modules/
+
+# Archivos del editor
+.vscode/
+.idea/
+*.log
+
+# Archivos de sistema operativo
+*.swp
+*.tmp
+
+# Archivos sensibles
+.env
+*.env.local
