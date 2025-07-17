@@ -107,6 +107,6 @@ Abre el archivo html/login.html en tu navegador o utiliza una extensión como Li
 ✉️ Contacto
 Para dudas o sugerencias, puedes contactar a el desarrollador mediante GitHub.
 
-### Autor
+# Autor
 
 -Jhonier Quintero software developer
