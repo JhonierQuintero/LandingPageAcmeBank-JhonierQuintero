@@ -339,3 +339,23 @@ function cargarCertificado() {
 window.addEventListener("DOMContentLoaded", () => {
     showSection('resumen');
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const toggleBtn = document.getElementById("toggle-menu");
+    const sidebar = document.querySelector(".sidebar");
+    const mainContent = document.querySelector(".main-content");
+
+    toggleBtn.addEventListener("click", () => {
+        sidebar.classList.toggle("active");
+        mainContent.classList.toggle("overlay");
+    });
+
+    // Cerrar menú al hacer clic fuera
+    document.addEventListener("click", (e) => {
+        const isClickInside = sidebar.contains(e.target) || toggleBtn.contains(e.target);
+        if (!isClickInside && sidebar.classList.contains("active")) {
+            sidebar.classList.remove("active");
+            mainContent.classList.remove("overlay");
+        }
+    });
+});

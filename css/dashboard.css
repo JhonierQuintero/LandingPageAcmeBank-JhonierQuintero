@@ -452,3 +452,150 @@ tr:last-child td {
     .btn { font-size: 0.9rem; padding: 0.4rem 0.7rem; }
     th, td { font-size: 0.85rem; }
 }
+
+/* BOTÓN HAMBURGUESA FLOTANTE - ABAJO IZQUIERDA */
+.hamburger-btn {
+    display: none;
+    position: fixed;
+    bottom: 1.2rem;
+    left: 1.2rem;
+    width: 56px;
+    height: 56px;
+    background: var(--color-accent);
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1100;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.hamburger-btn span {
+    width: 24px;
+    height: 3px;
+    background-color: white;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.sidebar.active ~ .hamburger-btn span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+.sidebar.active ~ .hamburger-btn span:nth-child(2) {
+    opacity: 0;
+}
+.sidebar.active ~ .hamburger-btn span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* ==== SOLO PARA MÓVILES ==== */
+@media (max-width: 900px) {
+
+    /* Mostrar botón hamburguesa */
+    .hamburger-btn {
+        display: flex;
+    }
+
+    /* Ocultar completamente el menú por defecto */
+    .sidebar {
+        left: -100%;
+        position: fixed;
+        top: 0;
+        height: 100vh;
+        width: var(--sidebar-expanded);
+        background: var(--color-primary);
+        transition: left 0.3s ease;
+        z-index: 1000;
+        padding-top: 4rem;
+        flex-direction: column;
+        align-items: center;
+        overflow-y: auto;
+    }
+
+    /* Mostrar menú al activarse */
+    .sidebar.active {
+        left: 0;
+        display: flex;
+    }
+
+    /* Ocultar lista de navegación hasta que el menú esté abierto */
+    .sidebar nav ul {
+        display: none;
+    }
+
+    .sidebar.active nav ul {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch;
+        width: 100%;
+        padding: 1rem;
+    }
+
+    /* Botones del menú sin animación en móviles */
+    .sidebar nav ul li button {
+        width: 100%;
+        font-size: 1.1rem;
+        padding: 1rem;
+        justify-content: flex-start;
+        transition: none !important;
+    }
+
+    .sidebar nav ul li button:hover {
+        background: #1a366b;
+        padding: 1rem;
+    }
+
+    /* Ocultar texto por defecto */
+    .sidebar nav ul li button span {
+        display: none !important;
+    }
+
+    /* Mostrar texto solo cuando el menú esté activo */
+    .sidebar.active nav ul li button span {
+        display: inline !important;
+        margin-left: 0.6rem;
+        font-size: 1rem;
+    }
+
+    /* Agrandar logo cuando el menú esté abierto */
+    .sidebar-logo {
+        width: 36px;
+        height: 36px;
+    }
+
+    .sidebar.active .sidebar-logo {
+        width: 64px;
+        height: 64px;
+        margin-bottom: 2rem;
+    }
+
+    /* Espacio debajo del botón "Cerrar sesión" */
+    #btn-salir {
+        margin-bottom: 4rem !important;
+    }
+
+    /* Posición del botón hamburguesa mientras el menú está activo */
+    .sidebar.active + .hamburger-btn {
+        position: fixed;
+        bottom: 1.2rem;
+        left: 1.2rem;
+        z-index: 1101;
+        background: var(--color-accent);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    /* Evita que el main se desplace */
+    .main-content {
+        margin-left: 0 !important;
+    }
+
+    .main-content.overlay {
+        filter: blur(2px);
+        pointer-events: none;
+    }
+}

@@ -340,6 +340,12 @@ body{
         animation: fadeInForm 0.8s;
     }
 
+    #form-registro {
+        padding: 1.5rem;
+        font-size: 1.1rem;
+        margin-top: 0;
+    }
+
     .mini-logo {
         display: block;
         width: 100px;
